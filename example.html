@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DragReorderable examples</title>
+    <style>
+      .thing-in-order {
+        border: 1px solid;
+        border-radius: 0.3ch;
+        cursor: move;
+        margin: 0.3ch;
+        padding: 0 0.5ch;
+      }
+
+      [data-being-dragged] {
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser-polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+    <script src="./index.js"></script>
+
+    <script type="text/babel">
+      const Examples = React.createClass({
+        getInitialState() {
+          return {
+            inline: false,
+            items: [
+              {id: 0, value: 'Zero'},
+              {id: 1, value: 'One'},
+              {id: 2, value: 'Two'},
+              {id: 3, value: 'Three'},
+              {id: 4, value: 'Four'},
+              {id: 5, value: 'Five'},
+              {id: 6, value: 'Six'},
+              {id: 7, value: 'Seven'},
+              {id: 8, value: 'Eight'},
+              {id: 9, value: 'Nine'}
+            ]
+          };
+        },
+
+        render() {
+          return <div>
+            <ZUIDragReorderable items={this.state.items} render={(item) => {
+              return <div key={item.id} className="thing-in-order" style={{
+                display: this.state.inline ? 'inline-block' : null
+              }}>{item.value}</div>;
+            }} onOrder={(items) => {
+              console.log('Items are now', items);
+              this.setState({
+                items: items
+              });
+            }} />
+
+            <div>
+              <label>
+                <input type="checkbox" onChange={(event) => {
+                  this.setState({
+                    inline: event.target.checked
+                  });
+                }} />{' '}
+                Inline
+              </label>
+            </div>
+          </div>;
+        }
+      });
+
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      React.render(<Examples />, container);
+    </script>
+  </body>
+</html>
