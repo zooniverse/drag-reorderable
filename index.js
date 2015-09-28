@@ -95,11 +95,13 @@
     },
 
     handleItemDragStart: function(item, event) {
+      if (!event.defaultPrevented) {
         event.dataTransfer.effectAllowed = 'move';
         this.setState({
           itemsWhileDragging: this.props.items.slice(),
           itemBeingDragged: item
         });
+      }
     },
 
     handleItemDragOver: function(item, event) {
