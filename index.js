@@ -27,18 +27,16 @@
 
   DragReorderable.propTypes = {
     tag: React.PropTypes.node,
-    targetTag: React.PropTypes.node,
     items: React.PropTypes.array,
     render: React.PropTypes.func,
-    onOrder: React.PropTypes.func
+    onChange: React.PropTypes.func
   };
 
   DragReorderable.defaultProps = {
     tag: 'div',
-    targetTag: 'span',
     items: [],
     render: Function.prototype,
-    onOrder: Function.prototype
+    onChange: Function.prototype
   };
 
   DragReorderable.prototype = Object.assign(Object.create(React.Component.prototype), {
@@ -50,7 +48,7 @@
           'drag-reorderable',
           this.props.className
         ].filter(Boolean).join(' '),
-        'data-dragging': !!this.state.isBeingDragged || null,
+        'data-dragging': !!this.state.itemBeingDragged || null,
         onDragOver: callAll([
           this.props.onDragOver,
           this.handleContainerDragOver.bind(this)
@@ -63,17 +61,21 @@
     },
 
     componentDidUpdate: function() {
+      var rootHasAttr = 'dragReorderableDragging' in document.documentElement.dataset;
       if (this.state.itemBeingDragged === null) {
-        delete document.documentElement.dataset.dragReorderableDragging;
+        if (rootHasAttr) {
+          delete document.documentElement.dataset.dragReorderableDragging;
+        }
       } else {
-        document.documentElement.dataset.dragReorderableDragging = true;
+        if (!rootHasAttr) {
+          document.documentElement.dataset.dragReorderableDragging = true;
+        }
       }
     },
 
     renderItem: function(item) {
       var itemElement = this.props.render.apply(null, arguments);
       var isBeingDragged = this.state.itemBeingDragged === item;
-
       return React.cloneElement(itemElement, {
         draggable: true,
         'data-being-dragged': isBeingDragged || null,
@@ -93,18 +95,17 @@
     },
 
     handleItemDragStart: function(item, event) {
-      event.dataTransfer.effectAllowed = 'move';
-      this.setState({
-        itemsWhileDragging: this.props.items.slice(),
-        itemBeingDragged: item
-      });
+        event.dataTransfer.effectAllowed = 'move';
+        this.setState({
+          itemsWhileDragging: this.props.items.slice(),
+          itemBeingDragged: item
+        });
     },
 
     handleItemDragOver: function(item, event) {
       var overRect = event.target.getBoundingClientRect();
       var halfwayPoint;
       var pastHalf;
-      // TODO: Do we need to check `page{X,Y}Offset`?
       if (this.isInline(event.target)) {
         halfwayPoint = overRect.left + (event.target.offsetWidth / 2);
         pastHalf = event.clientX > halfwayPoint;
@@ -148,8 +149,8 @@
       event.preventDefault();
     },
 
-    handleContainerDrop: function() {
-      this.props.onOrder(this.state.itemsWhileDragging);
+    handleContainerDrop: function(event) {
+      this.props.onChange(this.state.itemsWhileDragging);
     }
   });
 

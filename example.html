@@ -12,7 +12,12 @@
         padding: 0 0.5ch;
       }
 
+      [data-dragging] {
+        outline: 1px dashed gray;
+      }
+
       [data-being-dragged] {
+        background: lime;
         opacity: 0.5;
       }
     </style>
@@ -22,6 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser-polyfill.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+    <script src="https://rawgit.com//FormidableLabs/react-shuffle/master/lib/shuffle.js"></script>
     <script src="./index.js"></script>
 
     <script type="text/babel">
@@ -46,11 +52,14 @@
 
         render() {
           return <div>
-            <ZUIDragReorderable items={this.state.items} render={(item) => {
+            <br />·<br />·<br />·<br />·<br />·<br />
+            <ZUIDragReorderable items={this.state.items} render={(item, i) => {
               return <div key={item.id} className="thing-in-order" style={{
                 display: this.state.inline ? 'inline-block' : null
-              }}>{item.value}</div>;
-            }} onOrder={(items) => {
+              }}>
+                {item.value}
+              </div>;
+            }} onChange={(items) => {
               console.log('Items are now', items);
               this.setState({
                 items: items
