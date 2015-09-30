@@ -97,6 +97,7 @@
     handleItemDragStart: function(item, event) {
       if (!event.defaultPrevented) {
         event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/html', event.currentTarget);
         this.setState({
           itemsWhileDragging: this.props.items.slice(),
           itemBeingDragged: item
