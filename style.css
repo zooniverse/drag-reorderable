@@ -1,0 +1,7 @@
+.drag-reorderable [draggable] {
+  cursor: move;
+}
+
+.drag-reorderable [data-being-dragged] {
+  opacity: 0.5;
+}
