@@ -32,17 +32,22 @@ While dragging, the root document element will get a `data-drag-reorderable-drag
     },
 
     render() {
-      return <DragReorderable
-        tag="ul"
-        items={this.state.things}
-        render={this.renderThing}
-        onChange={this.handleThingsReorder}>;
+      return (
+        <DragReorderable
+          tag="ul"
+          items={this.state.things}
+          render={this.renderThing}
+          onChange={this.handleThingsReorder}
+        />
+      };
     },
 
     renderThing(thing) {
-      return <li key={thing.id}>
-        <p>The thing is: <code>{thing.content}</code>.</p>
-      </li>;
+      return (
+        <li key={thing.id}>
+          <p>The thing is: <code>{thing.content}</code>.</p>
+        </li>
+      );
     },
 
     handleThingsReorder(newThings) {
