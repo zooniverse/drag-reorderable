@@ -2,10 +2,13 @@
   'use strict';
 
   var React;
+  var PropTypes;
   if (typeof require !== 'undefined') {
     React = require('react');
+    PropTypes = require('prop-types');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    PropTypes = window.PropTypes;
   }
 
   function callAll(functions) {
@@ -26,10 +29,10 @@
   }
 
   DragReorderable.propTypes = {
-    tag: React.PropTypes.node,
-    items: React.PropTypes.array,
-    render: React.PropTypes.func,
-    onChange: React.PropTypes.func
+    tag: PropTypes.node,
+    items: PropTypes.array,
+    render: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   DragReorderable.defaultProps = {
