@@ -18,6 +18,8 @@ While dragging, the root document element will get a `data-drag-reorderable-drag
 
 ## Example
 
+http://zooniverse.github.io/drag-reorderable/example.html
+
 ```jsx
   const Whatever = React.createClass({
     getInitialState() {
