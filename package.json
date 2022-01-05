@@ -2,7 +2,7 @@
   "name": "drag-reorderable",
   "version": "0.2.0",
   "devDependencies": {
-    "prop-types": "^15.8.0",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2"
   }
 }
